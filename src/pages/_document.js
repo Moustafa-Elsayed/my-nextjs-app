@@ -1,8 +1,8 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
-export default function Document() {
+export default function Document({ locale }) {
   return (
-    <Html lang="en">
+    <Html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <Head />
       <body>
         <Main />
@@ -11,3 +11,11 @@ export default function Document() {
     </Html>
   );
 }
+
+Document.getInitialProps = async (ctx) => {
+  const initialProps = await ctx.renderPage();
+  return {
+    ...initialProps,
+    locale: ctx.locale || "en",
+  };
+};
